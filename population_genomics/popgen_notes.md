@@ -63,3 +63,11 @@ admixture analysis (structure) has a genetic model behind it which PCA does not.
 ### coding 
 
 Files were input and read. The data was filtered using the min.distance function to get rid of any SNPs that were to close together to remove bias in the data. A file that was very large was opened converted and moved to our home directory because if was to large for R. After a PCA graph was generated using the info contained in the thinned geno file using the pcaProject function. The eigenvalues were on the y and the index was on the x. The graph showed each PCA that will be input into a full PCA graph. The highest dot has the highest genetic value at PCA. the second highest has the second highest genetic info and so forth. The graph is steep and becomes almost linear because the lower dots have less accurate info regarding genetic makeup. Finally, a PCA plot was generated for PC1 v PC2 and PC2 v PC3. Showed that the pacific North West has the most divergent population as it is clustered closely together with little overlap to the other populations. Overall, the other populations in the study had lots of overlap on the graph showing that there is much less divergence between these populations and that they are very similar. There is slight divergence of the central European population but there is more overlap with other populations than the Pacific Northwest
+
+
+# 10/1
+### agenda 
+admixture analysis 
+- calulations
+- plotting 
+
