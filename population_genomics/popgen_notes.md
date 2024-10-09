@@ -62,7 +62,18 @@ admixture analysis (structure) has a genetic model behind it which PCA does not.
 
 ### coding 
 
-Files were input and read. The data was filtered using the min.distance function to get rid of any SNPs that were to close together to remove bias in the data. A file that was very large was opened converted and moved to our home directory because if was to large for R. After a PCA graph was generated using the info contained in the thinned geno file using the pcaProject function. The eigenvalues were on the y and the index was on the x. The graph showed each PCA that will be input into a full PCA graph. The highest dot has the highest genetic value at PCA. the second highest has the second highest genetic info and so forth. The graph is steep and becomes almost linear because the lower dots have less accurate info regarding genetic makeup. Finally, a PCA plot was generated for PC1 v PC2 and PC2 v PC3. Showed that the pacific North West has the most divergent population as it is clustered closely together with little overlap to the other populations. Overall, the other populations in the study had lots of overlap on the graph showing that there is much less divergence between these populations and that they are very similar. There is slight divergence of the central European population but there is more overlap with other populations than the Pacific Northwest
+Files were input and read. The data was filtered using the min.distance function to get rid of any SNPs that were to close together to remove bias in the data. A file that was very large was opened converted from vcf to geno and moved to our home directory because if was to large for R. After a PCA graph was generated using the info contained in the thinned geno file using the pcaProject function. The eigenvalues were on the y and the index was on the x. The graph showed each PCA that will be input into a full PCA graph. The highest dot has the highest genetic value at PCA. the second highest has the second highest genetic info and so forth. The graph is steep and becomes almost linear because the lower dots have less accurate info regarding genetic makeup. Finally, a PCA plot was generated for PC1 v PC2 and PC2 v PC3. Showed that the pacific North West has the most divergent population as it is clustered closely together with little overlap to the other populations. Overall, the other populations in the study had lots of overlap on the graph showing that there is much less divergence between these populations and that they are very similar. There is slight divergence of the central European population but there is more overlap with other populations than the Pacific Northwest
+
+#10/1 continued admixture/PCA
+First we used the 'snmf' function to run an admixture like analysis to compare each population. An admixture algorithm would take to long for our purposes. The analysis was run 3 times but can be ran as many times as needed to generate most accurate scores. Next we generated a plot that compared number of ancestreal popualitons and the cross entropy scores. We also generate a plot that compared the Eigenvalues and the number of PCs and compared both to interment he best number of K. The K value was picked based on the 'elbow' of both graphs as this showed the most accurate number for K based on the data. K value of 5 was used to generate a bar plot that was separated by continent and then further by region and population within each continent. The plot corroborated what the PCA plot generated in which the Pacific Northeast had the most genetic divergence from the other populations tested. It also showed that there was a degree of divergence in the Central European population. 
+
+#04 selection coding 
+
+
+
+
+
+
 
 
 # 10/1
@@ -70,4 +81,27 @@ Files were input and read. The data was filtered using the min.distance function
 admixture analysis 
 - calulations
 - plotting 
+
+
+
+#10/8 Transcritomics 
+experimental questions regarding copepod development and placidity at different environments (physiological mechanisms of development plasticity)
+Experimental questions 
+- does the temp that they experience growing up affect there UTL?
+- how does gene expression response differ between 28c and 33c and does this differ w baseline?
+- what genes are deferentially expressed at developmental temperature 22 compared to DT 18?
+
+Factors 
+1. developmental temperature 
+- 18 
+- 22 
+2 levels 
+
+2. final temperature 
+- baseline 
+- 28 (A28)
+-33 (A33)
+3 levels 
+
+### coding 
 
