@@ -130,6 +130,7 @@ vcf.filt <- filter_allele_balance(vcf.filt,
                                   )
 vcf.filt <- max_depth(vcf.filt,
                       maxdepth = 60)
+
 #usually 2x mean depth 
 
 
@@ -156,13 +157,13 @@ names(meta2) <- c("id","pop")
 meta2$id = as.factor(meta2$id)
 meta2$pop = as.factor(meta2$pop)
 
-#start wiht no cutoff for exploratory 
-#then add cuttoff=.8 or .75 N=36 samples 
 
-#filter out by snp missingness -- higher cutoff is more stringent 
+
+#filter out by indv. missingness -- higher cutoff is more stringent 
 vcf.filt.indMiss <- missing_by_sample(vcf.filt,
                                       popmap = meta2,
-                                      cutoff=0.75)
+                                      cutoff=0.85)
+
 #subset popmap to only include retained indv
 #based on graph going to filter indv above 75% missing data 
 
@@ -173,9 +174,9 @@ vcf.filt.indMiss <- min_mac(vcf.filt.indMiss, min.mac = 1)
 vcf.filt.indSNPMiss <- missing_by_snp(vcf.filt.indMiss, cutoff = 0.5)
 
 #assess clustering without MAC cutoff
-miss <- assess_missing_data_tsne(vcf.filt.indSNPMiss,
-                                 popmap = meta,
-                                 clustering = FALSE)
+#miss <- assess_missing_data_tsne(vcf.filt.indSNPMiss,
+                                 #popmap = meta,
+                                 #clustering = FALSE)
 
 
 DP2 <- extract.gt(vcf.filt.indSNPMiss,
@@ -184,14 +185,15 @@ DP2 <- extract.gt(vcf.filt.indSNPMiss,
 
 
 
-heatmap.bp(DP2[1:5000,],
-           rlabels=F, clabels=F)
+#heatmap.bp(DP2[1:5000,],
+           #rlabels=F, clabels=F)
 
 #thin data through LD 
 vcf.filter.indSNPMiss.thin <- distance_thin(vcf.filt.indMiss,
                                           min.distance = 500)
 
 
+vcf.filter.indSNPMiss.thin
 
 #write out files created during filtering steps 
 #saving to directory 

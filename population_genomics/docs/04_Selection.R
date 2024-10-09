@@ -5,9 +5,19 @@ library(vcfR)
 library(qqman)
 library(pcadapt)
 
+#use pcadapt to read in uncompressed VCF data from class
 vcf <- read.pcadapt("/gpfs1/cl/pbio3990/PopulationGenomics/variants/vcf_final.filtered.vcf",
                     type = "vcf")
 
+#compressed version of metadata 
+#issue with reading in file so used the file in the class directory
+#if wanted to use your own filted file need to provide path for vcf file that are uncompressed (no .gz extension) in the read,pcadapt() line and to the
+# compressed version (ends in .gz) in the read.vcfR() line
+# Be careful to only save the uncompressed version if you make one outside your github repo, because these
+# are big and would cause github to not accept your push
+
+
+#compressed version to subset metadata file 
 
 vcfR <- read.vcfR("/gpfs1/cl/pbio3990/PopulationGenomics/variants/vcf_final.filtered.vcf.gz")
 
@@ -20,7 +30,11 @@ pcadapt.pca <- pcadapt(vcf,
                        method = "componentwise",
                        min.maf = 0.01,# any loci less than 1% it will remove 
                        LD.clumping = list(size=500, thr=0.2)) #allows us to get function 2 parameters in size BP and thershold in correlation coeff.
-
+#k is th enumebr of PC axes you want to test for selection 
+#selection 'componentwise' returns a separate test for selection on each PC axis
+# if not it will return a global selection test across all PC axes 
+#min.maf is minor allele frequncey value to use when testing. SNPs below the value wont be counted
+#ld.clumping removes loci in strong LD when intally fitting the PCs then tests fro slection using all loci 
 
 
 #componentwise helps to get seperate test for each axis 

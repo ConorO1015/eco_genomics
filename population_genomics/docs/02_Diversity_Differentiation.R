@@ -84,6 +84,7 @@ manhattan(vcf.div.MHplot,
           ylab="Fst among regions",
           suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999)
           )
+
 #value above is the quantile of the data so .5 is the average. this shows that there is very low divergance btw popualitons 
 #this can mean that population is very similar and recently diverged 
 #selection process can effect the snps taht are outliers 
@@ -101,7 +102,7 @@ manhattan(vcf.div.MHplot,
 #local adaptations casuing regions ot diverge from eachother 
 
 #9/24 code
-
+view(vcf.div.MHplot)
 write.csv(vcf.div.MHplot, "~/Projects/eco_genomics/population_genomics/outputs/Gentic_Diff_byRegion.csv",
           quote=F,
           row.names = F)
@@ -129,8 +130,8 @@ vcf.div.MHplot %>%
   labs(title = "Genome Wide expected Heterozygosity (Hs)", fill = "Regions", 
        x = "Gene Diversity within Regions", y = "Counts of SNPs")
 
-ggsave("Histogram_Genome_Diversity_byRegion.pdf",
-       path = "~/Projects/eco_genomics/population_genomics/figures/")
+#ggsave("Histogram_Genome_Diversity_byRegion.5.pdf",
+      # path = "~/Projects/eco_genomics/population_genomics/figures/")
 
 #alpha is somehwhat transparent for overalying plots 
 #distribution of each region 
@@ -156,7 +157,7 @@ Hs_table <- vcf.div.MHplot %>%
 #filter used get rid of bins in the table 
 #first bin in plot is polymorphic within the entire data set bc they would not have survived the fiiltering process otherwise 
 
-write.csv(Hs_table, "population_genomics/outputs/Hs_table_noZeros.csv",
+write.csv(Hs_table, "~/Projects/eco_genomics/population_genomics/outputs/Hs_Table_noZeros5.csv",
           quote = F,
           row.names = F)
 
