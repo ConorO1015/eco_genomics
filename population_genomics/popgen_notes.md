@@ -48,7 +48,7 @@ Made Manhattan plot after filtering data so that each chromosome has correct syn
 
 Made a Manhattan plot showing FST. First the vcf file was manipulated so that it can be used for data analysis. data was grouped by region but could be grouped in other ways. Next Chromes were changed to be numbered from 1-8 and fst values associated with each position on set chrome. Data was manipulated so that pure numbers could be read by code and plotted to show fst. In addition, any 0 fst values were filtered out of the data.
 
-Analysis of Fst of the groups using ggplot showed that there is very little differentiation within the data with the exception of chromosome 8 as it has many indv(dots) that are higher in variablity compared to all other chromosomes. This could be do to changes in this populations enviornment causing selection pressures. When line of quartiles is changed to .5 or the average of the data the line is almost at 0 futhur showing that there is very little divergence btw populations
+Analysis of Fst of the groups using ggplot showed that there is very little differentiation within the data with the exception of chromosome 8 as it has many indv(dots) that are higher in variability compared to all other chromosomes. This could be do to changes in this populations environment causing selection pressures. When line of quadrilles is changed to .5 or the average of the data the line is almost at 0 futhur showing that there is very little divergence btw populations
 
 #09/24
 
@@ -60,48 +60,10 @@ Continuing with analysis of the data from 9/19. Diversity within each group was 
 
 admixture analysis (structure) has a genetic model behind it which PCA does not. The model is one of Hardy-W equilibrium. Good way to predict classes of genotypes when random mating is at play. Can also predict Hs if you know allele frequencies. Tries to group mixture into a certain number of groups into K. K has to be chosen 1. choose value of K. typical value 1-10 2. Assign individuals to one of the K groups. can be random or with prior knowledge 3. Calculate allele frequencies in each group 4. Calculate 2pq based on these frequencies and compare to the observed frequencies of Het 5. Does process over again to increase the prob of matching the observed heterozygosity ind. could be a member of multiple groups that leads to Q Q is the fractional ancestor of each indv in a group. Made in a matrix in K columns and row indv. some indv might be 0.5 0.5(completely separate) or 1 0(Homozygous for one allele) Plot is created based on this Then a cross validation model is generated to assess how good the model is working If K 'works' or is close to true value of K there will be a dip in the CV model as there is less error in predicting the genotype. Assumes that population structure is the only thing that is at work affecting heterozygosity
 
-### coding 
+### coding
 
 Files were input and read. The data was filtered using the min.distance function to get rid of any SNPs that were to close together to remove bias in the data. A file that was very large was opened converted from vcf to geno and moved to our home directory because if was to large for R. After a PCA graph was generated using the info contained in the thinned geno file using the pcaProject function. The eigenvalues were on the y and the index was on the x. The graph showed each PCA that will be input into a full PCA graph. The highest dot has the highest genetic value at PCA. the second highest has the second highest genetic info and so forth. The graph is steep and becomes almost linear because the lower dots have less accurate info regarding genetic makeup. Finally, a PCA plot was generated for PC1 v PC2 and PC2 v PC3. Showed that the pacific North West has the most divergent population as it is clustered closely together with little overlap to the other populations. Overall, the other populations in the study had lots of overlap on the graph showing that there is much less divergence between these populations and that they are very similar. There is slight divergence of the central European population but there is more overlap with other populations than the Pacific Northwest
 
-#10/1 continued admixture/PCA
-First we used the 'snmf' function to run an admixture like analysis to compare each population. An admixture algorithm would take to long for our purposes. The analysis was run 3 times but can be ran as many times as needed to generate most accurate scores. Next we generated a plot that compared number of ancestreal popualitons and the cross entropy scores. We also generate a plot that compared the Eigenvalues and the number of PCs and compared both to interment he best number of K. The K value was picked based on the 'elbow' of both graphs as this showed the most accurate number for K based on the data. K value of 5 was used to generate a bar plot that was separated by continent and then further by region and population within each continent. The plot corroborated what the PCA plot generated in which the Pacific Northeast had the most genetic divergence from the other populations tested. It also showed that there was a degree of divergence in the Central European population. 
+#10/1 continued admixture/PCA First we used the 'snmf' function to run an admixture like analysis to compare each population. An admixture algorithm would take to long for our purposes. The analysis was run 3 times but can be ran as many times as needed to generate most accurate scores. Next we generated a plot that compared number of ancestreal popualitons and the cross entropy scores. We also generate a plot that compared the Eigenvalues and the number of PCs and compared both to interment he best number of K. The K value was picked based on the 'elbow' of both graphs as this showed the most accurate number for K based on the data. K value of 5 was used to generate a bar plot that was separated by continent and then further by region and population within each continent. The plot corroborated what the PCA plot generated in which the Pacific Northeast had the most genetic divergence from the other populations tested. It also showed that there was a degree of divergence in the Central European population.
 
-#04 selection coding 
-
-
-
-
-
-
-
-
-# 10/1
-### agenda 
-admixture analysis 
-- calulations
-- plotting 
-
-
-
-#10/8 Transcritomics 
-experimental questions regarding copepod development and placidity at different environments (physiological mechanisms of development plasticity)
-Experimental questions 
-- does the temp that they experience growing up affect there UTL?
-- how does gene expression response differ between 28c and 33c and does this differ w baseline?
-- what genes are deferentially expressed at developmental temperature 22 compared to DT 18?
-
-Factors 
-1. developmental temperature 
-- 18 
-- 22 
-2 levels 
-
-2. final temperature 
-- baseline 
-- 28 (A28)
--33 (A33)
-3 levels 
-
-### coding 
-
+#10/4 selection First pcaadapt function was ran with a k value of two and a countwise method to apply PCA directly to the SNP data and returns a separate test for selection on each PC axis instead of the entire data. A manhattan plot was generated with p-values were then plotted on the y axis and the SNP on the x axis to determine how statistically significant each SNP is.There were some SNPs with very significant p-values over 20 and 30. This could indicate that there is some selection going on at particular locations between 0-5000 and 10000 - 15000 which could indicate association of traits or under selection pressures.Next PC1 and PC2 plots were generated for each chromosome to assess any selection in the data on a chromosomal level. Almost all chromosomes have SNPS that are above a p-value of 20. The most significant peaks are in chromosome 1,7, and 8. These are locations that are of interests in the genome to determine if selection is at play. If the location in the genome is known the SNP can potentially be linked to a specific function. Since this is PC1 the data could also indicate population structure. PC2 has much less variation in p-values as the highest with the highest p-value being at 15. The most significant finding is that from chromosome 1 and 8 as both have very large p-values in both PC1 and PC2. This indicates that in these chromosomes specifically there is linked section occurring. It could also mean that there is local adaption occurring with a specific regional population.
