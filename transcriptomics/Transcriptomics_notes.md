@@ -72,12 +72,24 @@ in gene expression between development temperature.
 # 10/15
 ## Trancsript 02
 
-Fist we compared the each gene with an adjusted p-value. It was ordered from lowest to highest p-value. Next used the 'head' function to look at the the genes with the lowest p-value(most signficant) and the log2fold change that compares the developmental temperature of 22 v 18. It also shows directionality with negative or positive value in comparing gene expression. Next we look at the most gene with the most significant p-value. We used plotCounts function to look at the counts of each data point comparing developmental temperature and final temperature. We then created a plot to compare the counts with the developmental temperature. The plot showed that there is a clear difference between the developmental and final temperature separated by a count of roughly 1000 as D18 was centered around 1800 counts and D22 was centered around 800 counts. Then we made a MA plot that showed the log fold change (y -axis) and the mean normalized counts(x-axis). Showed that there is a lot of up regulation in gene expression in D22 compared to D18. Pots that are to the right of the plot show genes that are constantly expressed. Next a volcano plot was generated to determine which genes were being up and down regulated. Points in the right quadrant showed that there is D22 is being up regulated and D18 is being down regulated. Finally, a heat map was generated to assess the gene expression between the developmental temperature and final temperature. Showed that there is much less regulation in the D18 group as corroborated by the previous plots. For specific genes this trend in up and down regulation is flipped in which D22 is down regulated and D18 is up regulated. 
+Fist we compared the each gene with an adjusted p-value. It was ordered from lowest to highest p-value. Next used the 'head' function to look at the the genes with the lowest p-value(most significant) and the log2fold change that compares the developmental temperature of 22 v 18. It also shows directionality with negative or positive value in comparing gene expression. Next we look at the most gene with the most significant p-value. We used plotCounts function to look at the counts of each data point comparing developmental temperature and final temperature. We then created a plot to compare the counts with the developmental temperature. The plot showed that there is a clear difference between the developmental and final temperature separated by a count of roughly 1000 as D18 was centered around 1800 counts and D22 was centered around 800 counts. Then we made a MA plot that showed the log fold change (y -axis) and the mean normalized counts(x-axis). Showed that there is a lot of up regulation in gene expression in D22 compared to D18. Pots that are to the right of the plot show genes that are constantly expressed. Next a volcano plot was generated to determine which genes were being up and down regulated. Points in the right quadrant showed that there is D22 is being up regulated and D18 is being down regulated. Finally, a heat map was generated to assess the gene expression between the developmental temperature and final temperature. Showed that there is much less regulation in the D18 group as corroborated by the previous plots. For specific genes this trend in up and down regulation is flipped in which D22 is down regulated and D18 is up regulated. 
+
+
+# 10/17 
+Comparing each group at three different levels of 
+
+
+#10/22
+overall question: 
+- look at each group 
+- BASE (d18 v d22)
+- a28(d18 v d22)
+- a33(d18 v d22)
+- want to create ven diagram to compare all three 
+- need 7 different numbers. one for each section of the ven diagram 
 
 
 
 
 
 
-Looked at first result name but could choose other names to look at
-differential expression between groups generated 2 plots. 
