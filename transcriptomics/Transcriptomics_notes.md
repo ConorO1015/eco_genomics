@@ -76,8 +76,8 @@ Fist we compared the each gene with an adjusted p-value. It was ordered from low
 
 
 # 10/17 
-Comparing each group at three different levels of 
-
+In this set of code we are going to be comparing the gene expression of different levels of developmental temperature to the different levels of final temperature. First we manipulated the data to group each development temperature with the final temperature. This created 5 different groups to compare. We compared D18 and D22 to the Baseline temp, D18 and D22 to A28, and D18 and D22 to A33. Three separate portions of code were generated for each of these comparisons to determine the up regulation and down regulation of gene expression under each condition and to generated an MA plot. 
+Next we determined the number of genes expressed for each developmental/final temperature comparison as well as the overlap of genes that are expressed in multiple different groups. This was in order to generate a ven diagram of the gene expression. There were 23 genes that were expressed among all treatment groups. 
 
 #10/22
 overall question: 
@@ -88,6 +88,17 @@ overall question:
 - want to create ven diagram to compare all three 
 - need 7 different numbers. one for each section of the ven diagram 
 
+
+After a ven diagram was generated, a scatter plot was made to compare specific treatment groups. We compared the D18 with the Baseline temperature and A28 and D22 with the Baseline temp and A33. This was also done to compare A33 with both dev temps. The first scatter plot comparing the response to 28c v Baseline varying by DevTemp. It showed that there was up regulation in D22 (red) under both A28 compared to baseline conditions as it is clustered around the 2.5 with some samples reading as high as 7.5. There is very little down regulation in D22(blue). There is some up regulation (pink) in D18 in response to 28c compared to base but not as large as that of D22. There is some down regulation in D18 compared to A28(turquoise) however, it is spread over a large area which may demonstrate that the baseline treatment has little effect on down regulation. 
+
+The second scatter plot shows comparing baseline vs 33c at both developmental temperatures shows more values than the first scatter plot.
+
+
+# 10/24 
+- if low p value there will be large test stat 
+- if negative log fold change there will be negetive test stat 
+grid arrange 
+ - allows you to take objects already saved and put them in order 
 
 
 

@@ -84,6 +84,7 @@ pheatmap(mat, annotation_col=df, show_rownames=FALSE, cluster_cos=T, cluster_row
 
 #red is highly expressed 
 #blue is low expression 
+
 #block of blue in the middle many samples corresponding to d18 
 #higher expression corresponds to d22
 

@@ -42,18 +42,22 @@ res_D18_A28_D22_A28 <- res_D18_A28_D22_A28[!is.na(res_D18_A28_D22_A28$padj),]
 res_D18_A28_D22_A28 <- res_D18_A28_D22_A28[order(res_D18_A28_D22_A28$padj),]
 head(res_D18_A28_D22_A28)
 summary(res_D18_A28_D22_A28)
+# up reg 146 .49%
+#down reg 150 .5%
 
 #make a list of which genes in our comparisons of interest are differential expressed (list of DEGs)
 degs_D18_A28_D22_A28 <- row.names(res_D18_A28_D22_A28[res_D18_A28_D22_A28$padj < 0.05,])
 
 plotMA(res_D18_A28_D22_A28, ylim = c(-4,4))
 
-# 3. compare A33 gene expression between devleopmental treatment groups 
+# 3. compare A33 gene expression between developmental treatment groups 
 res_D18_A33_D22_A33 <- results(dds, contrast = c("group", "D18A33", "D22A33"), alpha = 0.05)
 res_D18_A33_D22_A33 <- res_D18_A33_D22_A33[!is.na(res_D18_A33_D22_A33$padj),]
 res_D18_A33_D22_A33 <- res_D18_A33_D22_A33[order(res_D18_A33_D22_A33$padj),]
 head(res_D18_A33_D22_A33)
 summary(res_D18_A33_D22_A33)
+#up reg 47, .22%
+#down reg 31 .15%
 
 #make a list of which genes in our comparisons of interest are differential expressed (list of DEGs)
 degs_D18_A33_D22_A33 <- row.names(res_D18_A33_D22_A33[res_D18_A33_D22_A33$padj < 0.05,])
@@ -110,7 +114,7 @@ myEuler <- euler(c("BASE" = 1807, "A28" = 183, "A33" = 28, "BASE&A28" = 84,
 plot(myEuler, lty = 1:3, quantities= TRUE)
 
 
-##################################
+`##################################
 
 #make a scatter plot of responses to A28 when copepods develop at 18 vs 22
 #
@@ -138,7 +142,7 @@ res_df28 <- res_df28 %>%
     padj.18 < 0.05 & stat.18 < 0 ~ "turquoise2", #greater than 0 it is unregulated compared to 28 relative to base 
     padj.18 < 0.05 & stat.18 > 0 ~ "magenta1",
     padj.22 < 0.05 & stat.22 < 0 ~ "blue2",
-    padj.22 < 0.05 & stat.22 > 0 ~ "red2"
+    padj.22 < 0.05 & stat.22 > 0 ~ "red1"
     ))
 
 #count the number of points per fill color 
@@ -157,11 +161,14 @@ label_data28 <- merge(color_counts, label_position28, by = "fill")
 
 
 
-ggplot(res_df28, aes(x = log2FoldChange.18, y = log2FoldChange.22, color = fill)) + 
+plot28 <- ggplot(res_df28, aes(x = log2FoldChange.18, y = log2FoldChange.22, color = fill)) + 
   geom_point(alpha = 0.8) + 
   scale_color_identity() + 
-  geom_text(data = label_data, aes(x = x_pos, y = y_pos, label = count, color = fill),
+  geom_text(data = label_data28, aes(x = x_pos, y = y_pos, label = count, color = fill),
             size = 5) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black") +
+  geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey") + 
+  xlim(-10, 10) + ylim(-10, 10) + 
   labs(x = "Log2FoldChange 28 vs. BASE at 18", 
        y = "Log2FoldChange 28 v BASE at 22", 
        title = "How does response to 28C vary by DevTemp?") + 
@@ -171,9 +178,11 @@ ggplot(res_df28, aes(x = log2FoldChange.18, y = log2FoldChange.22, color = fill)
 #many genes unregulated at 22 degrees relative to baseline 
 #when developing at 18 very small response (magenta)
 #down reg when exposed to 22 
+#
 
 
-#make a scatter plot of responses to A28 when copepods develop at 18 vs 22
+
+#make a scatter plot of responses to A33 when copepods develop at 18 vs 22
 
 
 #contrast D18_A33vsBASE
@@ -197,16 +206,46 @@ res_df33 <- res_df33 %>%
     padj.18 < 0.05 & stat.18 < 0 ~ "turquoise2", #greater than 0 it is unregulated compared to 28 relative to base 
     padj.18 < 0.05 & stat.18 > 0 ~ "magenta1",
     padj.22 < 0.05 & stat.22 < 0 ~ "blue2",
-    padj.22 < 0.05 & stat.22 > 0 ~ "red2"
+    padj.22 < 0.05 & stat.22 > 0 ~ "red1"
   ))
-ggplot(res_df33, aes(x = log2FoldChange.18, y = log2FoldChange.22, color = fill)) + 
+#count the number of points per fill color 
+color_counts <- res_df33 %>%
+  group_by(fill) %>% 
+  summarise(count = n())
+
+label_position33 <- data_frame(
+  fill = c("blue2", "magenta1", "red1", "turquoise2"),
+  x_pos = c(1, 5, 0, -7.5),
+  y_pos = c(-5, 0, 9, 3)
+)
+
+label_data33 <- merge(color_counts, label_position33, by = "fill")
+
+
+
+
+plot33 <- ggplot(res_df33, aes(x = log2FoldChange.18, y = log2FoldChange.22, color = fill)) + 
   geom_point(alpha = 0.8) + 
   scale_color_identity() + 
+  geom_text(data = label_data33, aes(x = x_pos, y = y_pos, label = count, color = fill),
+            size = 5) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black") +
+  geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey") + 
+  xlim(-10, 10) + ylim(-10, 10) + 
   labs(x = "Log2FoldChange 33 vs. BASE at 18", 
-       y = "Log2FoldChange 33 v BASE at 22", 
+       y = "Log2FoldChange 33 vs. BASE at 22", 
        title = "How does response to 33C vary by DevTemp?") + 
   theme_minimal()
 
+#put the two plots together in a two panel plot 
+
+library(gridExtra)
+
+combined_plot <- grid.arrange(plot28, plot33, ncol = 2)
+
+ggsave("~/Projects/eco_genomics/transcriptomics/figures/combined_plot.png", combined_plot, width = 12, height = 6) 
+
+# many more genes differential epressed at 33 
 
 
 
