@@ -89,16 +89,25 @@ overall question:
 - need 7 different numbers. one for each section of the ven diagram 
 
 
-After a ven diagram was generated, a scatter plot was made to compare specific treatment groups. We compared the D18 with the Baseline temperature and A28 and D22 with the Baseline temp and A33. This was also done to compare A33 with both dev temps. The first scatter plot comparing the response to 28c v Baseline varying by DevTemp. It showed that there was up regulation in D22 (red) under both A28 compared to baseline conditions as it is clustered around the 2.5 with some samples reading as high as 7.5. There is very little down regulation in D22(blue). There is some up regulation (pink) in D18 in response to 28c compared to base but not as large as that of D22. There is some down regulation in D18 compared to A28(turquoise) however, it is spread over a large area which may demonstrate that the baseline treatment has little effect on down regulation. 
+After a ven diagram was generated, a scatter plot was made to compare specific treatment groups. We compared the D18 with the Baseline temperature and A28 and D22 with the Baseline temp and A33. This was also done to compare A33 with both dev temps. The first scatter plot comparing the response to 28c v Baseline varying by DevTemp. It showed that there was up regulation in D22 (r272 in red) under A28 conditions compared to baseline conditions as it is clustered around the 2.5 with some samples reading as high as 7.5. There is very little down regulation in D22(blue). There is some up regulation (pink) in D18 in response to 28c compared to base but not as large as that of D22. There is some down regulation in D18 compared to A28(turquoise) however, it is spread over a large area which may demonstrate that the baseline treatment has little effect on down regulation. 
 
-The second scatter plot shows comparing baseline vs 33c at both developmental temperatures shows more values than the first scatter plot.
+The second scatter plot is comparing baseline vs 33c at developmental temperatures shows more values than the first scatter plot. There is a great number of genes that are unregulated (1127 in red) but also a large number of genes down regulated (240 turquoise) when comparing the change
+Comparing both scatter plots there are many more genes differential expressed at 33 degrees than 28 degrees. 
 
 
 # 10/24 
+# WGCNA 
 - if low p value there will be large test stat 
 - if negative log fold change there will be negetive test stat 
 grid arrange 
  - allows you to take objects already saved and put them in order 
+
+In this script we are using WGCNA to visualize and gene correlation. First the files were read in an d working directory set. We created a matrix of just BASE reads as this is the control of the experiment and all samples will be compared to this matrix. The second step was to filter and detect any outliers. We used the 'goodSamplesGenes' function to assess the quality of gene expression counts. It looks in the matrix and returns objects that are missing values, low variability or dispersion. R returns true (good) false (bad) genes that do or do not need to be filtered out based on criteria. Based on this the bad genes were filtered out leaving us with 82,203 genes in 7 samples. Next outliners were detected using the 'htree' function (tree dendrogram) that assesses clustering. We also used PCA that showed how much variation between samples existed. Helps to visualize any outliers. Step three was to normalize the data. Genes were filtered based on read depth of counts of at least 15 in 6 or more samples. 'vst' was used for variance stabilization and the data was read back into a matrix. Step 4 was to construct the network for WGCNA analysis. A soft power threshold was also set as more stringent power can be applied later. After this was ran, 2 plots were generated that compared the scale free topography model v power and the mean connectivity(average connectivity between genes) vs power. Regarding the first plot, you want to select a power that meets or just exceeds the R^2 value(high R^2). Generally, as the power increases the connectivity decreases as stronger filtering reduces the number of connections. You want to choose a value that retains sufficient connectivity but not to much as to filter out too many connections. A soft power of 26 was choosen. 
+
+ 
+#10/29
+We continued with 
+
 
 
 
