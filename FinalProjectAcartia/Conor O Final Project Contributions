@@ -1,0 +1,7 @@
+Conor O'Rourke Contributions for final project 
+1. helped prep data sets for BLAST anaylsis 
+2. Ran intial blast with a e-val of -25 
+3. tried for a very long time to get Go functional enrichment to work. The problem that Alison and I ran into was either that the names in the BLAST matrix did not match the GO terms or that the filtered common genes between both the BLAST matrix and the go terms was not enough data for the enrichment to distinguish a biological pathway. This code was uploaded to my github. Hopefully we can figure it out in the future.
+4. For running go I ran DESeq, pulled out the contrasts I wanted, had to manipulate the resulting matrix to incldue the p-val padj and log2fold chand with the correct tonsa name so that GO terms could be matched. Filtered the matrix so it only included names that were in the GO file. Then I assigned the groups for the GO terms, and finally set up the GO fucntion. The actually analysis did not work.
+5. Gathered external sources for Intoduction and Discussion section 
+6. Wrote Intoduction and the majority of the methods, results, and discssion secetions 
