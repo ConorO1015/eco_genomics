@@ -1,4 +1,4 @@
-library(DESeq2)
+getlibrary(DESeq2)
 library(ggplot2)
 library(tidyverse)
 library(dplyr)

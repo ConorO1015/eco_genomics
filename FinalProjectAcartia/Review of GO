@@ -1,0 +1,75 @@
+Review of GO Enchirchment code
+1/27/25
+
+"/gpfs1/home/c/l/clorourk/Projects/eco_genomics/FinalProjectAcartia"
+
+this doc is helpful 
+https://bioconductor.org/packages/devel/bioc/vignettes/topGO/inst/doc/topGO.pdf
+
+
+
+When preparing for GO Chat gpt gave a suggest in which I chnaged this line 
+geneList_UPelevated <- setNames(as.integer(sig_genes1$Group == "Up_Tonsa"), sig_genes1$ExtractGene)
+group was orginially ExtraGene
+
+
+chat gpt gave suggestions on how to change the code and I input them into the script. It apears that this code has chnaged the results of GO 
+output 
+GO.ID                                        Term Annotated Significant
+1  GO:0016043             cellular component organization         4           4
+2  GO:0071840 cellular component organization or bioge...         4           4
+3  GO:0006520                amino acid metabolic process         3           3
+4  GO:0019538                   protein metabolic process         3           3
+5  GO:0032501            multicellular organismal process         3           3
+6  GO:0032502                       developmental process         3           3
+7  GO:0071702                 organic substance transport         3           3
+8  GO:1901564 organonitrogen compound metabolic proces...         6           5
+9  GO:0006412                                 translation         2           2
+10 GO:0006518                   peptide metabolic process         2           2
+11 GO:0006886             intracellular protein transport         2           2
+12 GO:0006950                          response to stress         2           2
+13 GO:0006996                      organelle organization         2           2
+14 GO:0007275          multicellular organism development         2           2
+15 GO:0007399                  nervous system development         2           2
+16 GO:0008104                        protein localization         2           2
+17 GO:0009066 aspartate family amino acid metabolic pr...         2           2
+18 GO:0015031                           protein transport         2           2
+19 GO:0022008                                neurogenesis         2           2
+20 GO:0022607                 cellular component assembly         2           2
+   Expected classicFisher
+1      2.67          0.33
+2      2.67          0.33
+3      2.00          0.45
+4      2.00          0.45
+5      2.00          0.45
+6      2.00          0.45
+7      2.00          0.45
+8      4.00          0.59
+9      1.33          0.59
+10     1.33          0.59
+11     1.33          0.59
+12     1.33          0.59
+13     1.33          0.59
+14     1.33          0.59
+15     1.33          0.59
+16     1.33          0.59
+17     1.33          0.59
+18     1.33          0.59
+19     1.33          0.59
+20     1.33          0.59
+
+
+
+The GO fucntion that chat gave and the fucntion that Alison and I had already made prodcued the same results when common lines were added from chat after the function was executed 
+
+Term is the description 
+Annotated is the number of genes in the dataset that are associated with that GO term
+signficant is the number of genes in the test (differentially expressed) that are associated with GO terms 
+Expected is the exprected number of genes assocated with this Go term based on random distribution  
+classicFisher is the p-val from the fisher exact test that assesses wheather the enrichment iof genes in this GO term is sat signifcant lower values indivate stronger signicance 
+
+based on the fischer test alone the data that was generated was not statisically signifcant 
+
+
+
+
