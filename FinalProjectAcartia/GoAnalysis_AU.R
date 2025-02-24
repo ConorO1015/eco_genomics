@@ -1,6 +1,4 @@
-getlibrary(DESeq2)
-
-
+library(DESeq2)
 library(ggplot2)
 library(tidyverse)
 library(dplyr)
@@ -165,66 +163,112 @@ resultsNames(dds)
 library(stringr)
 
 
-#call specific contrasts and filter by signifcantly differentially expressed genes 
+#call specific contrasts and filter by significantly differentially expressed genes 
 res_species <- results(dds, name = "Species_Atonsa_vs_Ahud", alpha = 0.05)
 sig_genes <- res_species[!is.na(res_species$padj) & res_species$padj < 0.05, ]
 
 sig_genes <- sig_genes[order(sig_genes$padj),] #sort by p-val
-view(sig_genes)
+#view(sig_genes)
 
-sig_gened <- as.data.frame(sig_genes)
 
+sig_gened <- as.data.frame(sig_genes) 
+
+#create dataframe to add name to the column with the gene info 
 sig_gened <- rownames_to_column(sig_gened, var = "BothNames")
-view(sig_gened)
+#view(sig_gened)
 
+#Splits the names of the gene in the "both name" column serrated by :: and putting the first part of the name 
+#in a separate column called extra gene so that it can be called later during the GO anaylsis.
+ 
 sig_genes1 <- sig_gened %>% 
   mutate(ExtractGene = str_extract(sig_gened[[1]], "(?<=::)[^:]+(?=::)"))
 
 view(sig_genes1)
-#summary(sig_genes)
+summary(sig_genes)
 
+
+
+####### preparing for GO ####################
+
+#load in GO file from tonsa
+tonsa_go <- read.delim("Gene_GO_noNA.tsv", header = TRUE) 
+#view(tonsa_go)
+
+#looks for common gene name between the GO terms and the data that was just manipulated and names them to be called later 
 common_genes <- intersect(tonsa_go$geneID, sig_genes1$ExtractGene) 
-tonsa_go <- tonsa_go %>% filter(geneID %in% common_genes)
-sig_genes1 <- sig_genes1 %>% filter(ExtractGene %in% common_genes)
 
+#filters to call only genes and there data from both datasets 
+tonsa_go <- tonsa_go %>% filter(geneID %in% common_genes)
+sig_genes1 <- sig_genes1 %>% filter(ExtractGene %in% common_genes) %>% 
+  dplyr::select(ExtractGene, log2FoldChange, padj)
+
+#takes only these columns to use for analysis 
 sig_genes1 <- sig_genes1 %>%
-  dplyr::select(ExtractGene, log2FoldChange, padj) %>%
+  #dplyr::select(ExtractGene, log2FoldChange, padj) %>%
   mutate(Group = case_when(
     log2FoldChange > 0 & padj < 0.05 ~ "Up_Tonsa",
     log2FoldChange < 0 & padj < 0.05 ~ "Down_Tonsa",
     TRUE ~ "nonsig"
   ))
+#mutate used to add column that labels what the p-value means either up or down regulation of tonsa 
+#case when used to assign names to columns based on p-val 
+
+#Splits the GO terms and set gene ID based on the matched names from both datasets 
+#gene2GO <- tonsa_go$GO %>% strsplit(";") %>% 
+#  setNames(tonsa_go$geneID)
+#geneList_UPelevated <- setNames(as.integer(sig_genes1$Group == "Up_Tonsa"), sig_genes1$ExtractGene)
+#geneList_UPambient <- setNames(as.integer(sig_genes1$Group == "Up_Hudsonica"), sig_genes1$ExtractGene)
+#returns true if gene is in the 
+
+########## alternative from gpt ############
+
+  
+  # Create a named list for GO terms
+gene2GO <- tonsa_go %>%
+  separate_rows(GO, sep = ";") %>%   # Splits GO terms into separate rows
+  group_by(geneID) %>%
+  summarise(GO = list(unique(GO))) %>% # Ensure unique GO terms per gene
+  deframe()  # Convert to a named list
+
+# Create a named vector for gene presence (binary: 1 if significant, 0 otherwise)
+geneList <- sig_genes1 %>%
+  mutate(binary = ifelse(Group == "Up_Tonsa", 1, 0)) %>%
+  pull(binary, name = ExtractGene)  # Named vector for enrichment analysis
 
 
-#load in GO file from tonsa
-tonsa_go <- read.delim("Gene_GO_noNA.tsv", header = TRUE) 
-#gene2go <- split(tonsa_go$GO, tonsa_go$geneID)
-#view(tonsa_go)
-
-gene2GO <- tonsa_go$GO %>% strsplit(";") %>% setNames(tonsa_go$geneID)
-geneList_UPelevated <- setNames(as.integer(sig_genes1$ExtractGene == "Up_Tonsa"), sig_genes1$ExtractGene)
-geneList_UPambient <- setNames(as.integer(sig_genes1$ExtractGene == "Up_Hudsonica"), sig_genes1$ExtractGene)
-
-
-
-# Run GO enrichment analysis (Biological Process as default)
-#go_results <- enrichGO(
-#  gene          = "ExtractGene",                # Vector of gene names
-#  OrgDb         = gene2go,             # Annotation database (e.g., human)
-#  keyType       = "SYMBOL",                 # Use gene symbols; change as needed
-#  ont           = "BP",                     # Ontology: BP (Biological Process), MF, CC
-#  pAdjustMethod = "BH",                     # Adjust for multiple testing
-#  pvalueCutoff  = 0.05,                     # p-value threshold
-#  qvalueCutoff  = 0.2                      # FDR threshold
-#)
 
 
 
 ########## GO #############
 
 
+library(topGO)
+
+GOdata <- new(
+  "topGOdata",
+  ontology = "BP",  
+  allGenes = geneList,
+  geneSelectionFun = function(x) x == 1,  # Selects only significant genes
+  annot = annFUN.gene2GO,
+  gene2GO = gene2GO
+)
+
+# Run the Fisher's exact test for enrichment
+resultFisher <- runTest(GOdata, algorithm = "classic", statistic = "fisher")
+
+# Get enriched GO terms
+allRes <- GenTable(GOdata, classicFisher = resultFisher, topNodes = 20)
+print(allRes)
+
+
+###################### end of alternative code from gpt #####################
+
+
+
+
+
 # TopGO analysis function
-#dont know if i need this 
+ 
 run_topgo <- function(geneList, description) {
   GOdata <- new("topGOdata",
                 description = description,
@@ -243,7 +287,17 @@ run_topgo <- function(geneList, description) {
   return(res_table)
 }
 
-#everything works up to here :(
+#this part was added from what chat added and both GO functions produce the same reuslts 
+# Run the Fisher's exact test for enrichment
+resultFisher <- runTest(GOdata, algorithm = "classic", statistic = "fisher")
+
+# Get enriched GO terms
+allRes <- GenTable(GOdata, classicFisher = resultFisher, topNodes = 20)
+print(allRes)
+
+
+
+#everything works up to here 
 
 A_up_results <- run_topgo(geneList_UPambient, "Ambient_up") %>%
   mutate(group = "Ambient_up")
@@ -254,9 +308,7 @@ E_up_results <- run_topgo(geneList_UPelevated, "Elevated_up") %>%
 filter_terms <- function(df) {
   df %>% filter(Annotated >= 15 & Annotated < 500)
 }
-
-setwd(path.expand("~"))
-
+print(filter_terms)etwd(path.expand("~"))
 
 
 
@@ -272,7 +324,8 @@ setwd(path.expand("~"))
 
 
 
-######### Scarp code ##################
+
+######### Scarp code ################## NOT PART OF ABOVE CODE #################
 #Run GO 
 ego <- enricher(sig_genes1, TERM2GENE = gene2go)
 
@@ -311,11 +364,6 @@ barplot(top_terms,
         main = "Top Go Terms for Species Contrast",
         ylab = "-log10(p-values)",
         names.arg = names(top_terms))
-
-
-
-
-
 
 
 
